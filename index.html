@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Feedback</title>
+    <style>
+        /* Styling for the form */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+        }
+
+        .feedback-form {
+            width: 100%;
+            max-width: 400px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .feedback-form h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .feedback-form p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .feedback-form label {
+            font-weight: bold;
+            display: block;
+            margin: 15px 0 5px;
+        }
+
+        .star-rating {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+
+        .star-rating input[type="radio"] {
+            display: none;
+        }
+
+        .star-rating label {
+            font-size: 24px;
+            color: #ffc107;
+            cursor: pointer;
+        }
+
+        .feedback-form textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            resize: none;
+            font-size: 14px;
+            color: #666;
+            height: 100px;
+            margin-bottom: 15px;
+        }
+
+        .submit-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+
+        .submit-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<div class="feedback-form">
+    <h1><img src="clipboard-icon.png" alt="icon" style="height: 24px; vertical-align: middle;"> Course Feedback</h1>
+    <p>Please take a moment to rate and review...</p>
+    <form id="feedbackForm">
+        <h3 style="color: #4CAF50;">Are you satisfied with this course?</h3>
+
+        <!-- Content Quality Rating -->
+        <label>Content Quality</label>
+        <div class="star-rating">
+            <input type="radio" id="content-quality-5" name="contentQuality" value="5">
+            <label for="content-quality-5">&#9733;</label>
+            <input type="radio" id="content-quality-4" name="contentQuality" value="4">
+            <label for="content-quality-4">&#9733;</label>
+            <input type="radio" id="content-quality-3" name="contentQuality" value="3">
+            <label for="content-quality-3">&#9733;</label>
+            <input type="radio" id="content-quality-2" name="contentQuality" value="2">
+            <label for="content-quality-2">&#9733;</label>
+            <input type="radio" id="content-quality-1" name="contentQuality" value="1">
+            <label for="content-quality-1">&#9733;</label>
+        </div>
+
+        <!-- UI and Navigation Rating -->
+        <label>UI and Navigation</label>
+        <div class="star-rating">
+            <input type="radio" id="ui-nav-5" name="uiNavigation" value="5">
+            <label for="ui-nav-5">&#9733;</label>
+            <input type="radio" id="ui-nav-4" name="uiNavigation" value="4">
+            <label for="ui-nav-4">&#9733;</label>
+            <input type="radio" id="ui-nav-3" name="uiNavigation" value="3">
+            <label for="ui-nav-3">&#9733;</label>
+            <input type="radio" id="ui-nav-2" name="uiNavigation" value="2">
+            <label for="ui-nav-2">&#9733;</label>
+            <input type="radio" id="ui-nav-1" name="uiNavigation" value="1">
+            <label for="ui-nav-1">&#9733;</label>
+        </div>
+
+        <!-- Course Duration Rating -->
+        <label>Course Duration</label>
+        <div class="star-rating">
+            <input type="radio" id="course-duration-5" name="courseDuration" value="5">
+            <label for="course-duration-5">&#9733;</label>
+            <input type="radio" id="course-duration-4" name="courseDuration" value="4">
+            <label for="course-duration-4">&#9733;</label>
+            <input type="radio" id="course-duration-3" name="courseDuration" value="3">
+            <label for="course-duration-3">&#9733;</label>
+            <input type="radio" id="course-duration-2" name="courseDuration" value="2">
+            <label for="course-duration-2">&#9733;</label>
+            <input type="radio" id="course-duration-1" name="courseDuration" value="1">
+            <label for="course-duration-1">&#9733;</label>
+        </div>
+
+        <!-- Additional Feedback -->
+        <label for="additionalFeedback">Write your feedback here (Optional)…</label>
+        <textarea id="additionalFeedback" name="additionalFeedback"></textarea>
+
+        <button type="button" class="submit-button" onclick="submitForm()">Submit</button>
+    </form>
+</div>
+
+<script>
+    // Replace with your Google Apps Script URL
+    const scriptURL = AKfycbywCyhJJeYzRoBiIMFjTUQYBSt5CON_gMML_HFbZzHa;
+
+    function submitForm() {
+        const form = document.getElementById('feedbackForm');
+        const formData = new FormData(form);
+
+        // Convert FormData to JSON
+        const data = {};
+        formData.forEach((value, key) => {
+            data[key] = value;
+        });
+
+        fetch(scriptURL, {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert("Thank you for your feedback!");
+            form.reset();
+        })
+        .catch(error => console.error('Error!', error.message));
+    }
+</script>
+
+</body>
+</html>
